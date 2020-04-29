@@ -1,16 +1,13 @@
-//card options
-const cardArray = [
+// Selectors
+const matches = document.querySelector("#matches");
+const message = document.querySelector("#message");
+const grid = document.querySelector(".grid");
+const turns = document.querySelector("#turns");
+
+const possibleCards = [
   {
     name: "burger",
     img: "images/burger.png",
-  },
-  {
-    name: "burger",
-    img: "images/burger.png",
-  },
-  {
-    name: "cupcake",
-    img: "images/cupcake.png",
   },
   {
     name: "cupcake",
@@ -21,20 +18,8 @@ const cardArray = [
     img: "images/fried-egg.png",
   },
   {
-    name: "fried-egg",
-    img: "images/fried-egg.png",
-  },
-  {
     name: "fries",
     img: "images/fries.png",
-  },
-  {
-    name: "fries",
-    img: "images/fries.png",
-  },
-  {
-    name: "pizza",
-    img: "images/pizza.png",
   },
   {
     name: "pizza",
@@ -45,44 +30,44 @@ const cardArray = [
     img: "images/popcorn.png",
   },
   {
-    name: "popcorn",
-    img: "images/popcorn.png",
+    name: "shake",
+    img: "images/shake.png",
+  },
+  {
+    name: "hotdog",
+    img: "images/hotdog.png",
   },
 ];
 
-cardArray.sort(() => 0.5 - Math.random());
+cardArray = [];
 
-const grid = document.querySelector(".grid");
-const resultDisplay = document.querySelector("#result");
-const message = document.querySelector('#message');
-
-var card = document.querySelectorAll('img');
-console.log(card);  
-
-var cardsChosen = [];
-var cardsChosenId = [];
-const cardsWon = [];
-
-// create board
-
-for (const cards of card) {
-  cards.addEventListener('click', flipcard);
+function setCardArray(num) {
+  for (let i = 0; i < num; i++) {
+    cardArray.push(possibleCards[i]);
+    cardArray.push(possibleCards[i]);
+  }
 }
 
+setCardArray(6);
 
-//function createBoard() {
-  //for (let i = 0; i < cardArray.length; i++) {
-    
+cardArray.sort(() => 0.5 - Math.random());
 
-    
-    //card.setAttribute("src", "images/blank.png");
-    //card.setAttribute("data-id", i);
-    //card.addEventListener("click", flipcard);
-    //grid.appendChild(card);
-  //}
-//}
+let cardsChosen = [];
+let cardsChosenId = [];
+const cardsWon = [];
 
-// createBoard();
+function createBoard() {
+  for (let i = 0; i < cardArray.length; i++) {
+    var card = document.createElement("img");
+    card.setAttribute("src", "images/blank.png");
+    card.setAttribute("data-id", i);
+    card.setAttribute("class", "card-back");
+    card.addEventListener("click", flipcard);
+    grid.appendChild(card);
+  }
+}
+
+createBoard();
 
 // check for card
 function checkForMatch() {
@@ -90,7 +75,6 @@ function checkForMatch() {
   const optionOneId = cardsChosenId[0];
   const optionTwoId = cardsChosenId[1];
   if (cardsChosen[0] === cardsChosen[1]) {
-    // alert("You found a match");
     message.textContent = "You found a match";
     cards[optionOneId].setAttribute("src", "images/white.png");
     cards[optionTwoId].setAttribute("src", "images/white.png");
@@ -98,23 +82,26 @@ function checkForMatch() {
   } else {
     cards[optionOneId].setAttribute("src", "images/blank.png");
     cards[optionTwoId].setAttribute("src", "images/blank.png");
-    //alert("Sorry, try again!");
+    cards[optionOneId].setAttribute("class", "card-back");
+    cards[optionTwoId].setAttribute("class", "card-back");
     message.textContent = "Sorry, try again!";
   }
   cardsChosen = [];
   cardsChosenId = [];
-  resultDisplay.textContent = cardsWon.length;
+  matches.textContent = cardsWon.length;
   if (cardsWon.length === cardArray.length / 2) {
-    resultDisplay.textContent = "Congratulations, You found them all!";
+    message.textContent = "Congratulations, You found them all!";
   }
+  turns.textContent++;
 }
 
 // flip card
 function flipcard() {
-  var cardId = card.getAttribute("data-id");
+  var cardId = this.getAttribute("data-id");
   cardsChosen.push(cardArray[cardId].name);
   cardsChosenId.push(cardId);
-  card.setAttribute("src", cardArray[cardId].img);
+  this.setAttribute("src", cardArray[cardId].img);
+  this.setAttribute("class", "card-front");
   if (cardsChosen.length === 2) {
     setTimeout(checkForMatch, 500);
   }

@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const grid = document.querySelector(".grid");
   const resultDisplay = document.querySelector("#result");
-  const message = document.querySelector('#message');
 
   var cardsChosen = [];
   var cardsChosenId = [];
@@ -81,16 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const optionOneId = cardsChosenId[0];
     const optionTwoId = cardsChosenId[1];
     if (cardsChosen[0] === cardsChosen[1]) {
-      // alert("You found a match");
-      message.textContent = "You found a match";
+      alert("You found a match");
       cards[optionOneId].setAttribute("src", "images/white.png");
       cards[optionTwoId].setAttribute("src", "images/white.png");
       cardsWon.push(cardsChosen);
     } else {
       cards[optionOneId].setAttribute("src", "images/blank.png");
       cards[optionTwoId].setAttribute("src", "images/blank.png");
-      //alert("Sorry, try again!");
-      message.textContent = "Sorry, try again!";
+      alert("Sorry, try again!");
     }
     cardsChosen = [];
     cardsChosenId = [];
