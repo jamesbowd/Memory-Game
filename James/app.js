@@ -3,6 +3,12 @@ const matches = document.querySelector("#matches");
 const message = document.querySelector("#message");
 const grid = document.querySelector(".grid");
 const turns = document.querySelector("#turns");
+const difficulty = document.querySelectorAll('.btn');
+
+let cardArray = [];
+let cardsChosen = [];
+let cardsChosenId = [];
+let cardsWon = [];
 
 const possibleCards = [
   {
@@ -37,24 +43,49 @@ const possibleCards = [
     name: "hotdog",
     img: "images/hotdog.png",
   },
+  {
+    name: "sandwich",
+    img: "images/sandwich.png",
+  },
+  {
+    name: "taco",
+    img: "images/taco.png",
+  },
 ];
 
-cardArray = [];
+for (const button of difficulty) {
+  button.addEventListener('click', setDifficulty)
+}
+
+function init () {
+  grid.innerHTML = '';
+  cardArray = [];
+  message.textContent = 'Good Luck!';
+  turns.textContent = '0';
+  matches.textContent = '0';
+}
+
+function setDifficulty () {
+  init();
+  if (this.getAttribute('id') == 'six') {
+    setCardArray(6);
+  }
+  if (this.getAttribute('id') == 'eight') {
+    setCardArray(8);
+  }
+  if (this.getAttribute('id') == 'ten') {
+    setCardArray(10);
+  }
+}
 
 function setCardArray(num) {
   for (let i = 0; i < num; i++) {
     cardArray.push(possibleCards[i]);
     cardArray.push(possibleCards[i]);
   }
+  cardArray.sort(() => 0.5 - Math.random());
+  createBoard();
 }
-
-setCardArray(6);
-
-cardArray.sort(() => 0.5 - Math.random());
-
-let cardsChosen = [];
-let cardsChosenId = [];
-const cardsWon = [];
 
 function createBoard() {
   for (let i = 0; i < cardArray.length; i++) {
@@ -67,7 +98,17 @@ function createBoard() {
   }
 }
 
-createBoard();
+// flip card
+function flipcard() {
+  var cardId = this.getAttribute("data-id");
+  cardsChosen.push(cardArray[cardId].name);
+  cardsChosenId.push(cardId);
+  this.setAttribute("src", cardArray[cardId].img);
+  this.setAttribute("class", "card-front");
+  if (cardsChosen.length === 2) {
+    setTimeout(checkForMatch, 500);
+  }
+}
 
 // check for card
 function checkForMatch() {
@@ -93,16 +134,4 @@ function checkForMatch() {
     message.textContent = "Congratulations, You found them all!";
   }
   turns.textContent++;
-}
-
-// flip card
-function flipcard() {
-  var cardId = this.getAttribute("data-id");
-  cardsChosen.push(cardArray[cardId].name);
-  cardsChosenId.push(cardId);
-  this.setAttribute("src", cardArray[cardId].img);
-  this.setAttribute("class", "card-front");
-  if (cardsChosen.length === 2) {
-    setTimeout(checkForMatch, 500);
-  }
 }
