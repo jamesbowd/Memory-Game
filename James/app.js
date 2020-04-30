@@ -3,7 +3,7 @@ const matches = document.querySelector("#matches");
 const message = document.querySelector("#message");
 const grid = document.querySelector(".grid");
 const turns = document.querySelector("#turns");
-const difficulty = document.querySelectorAll('.btn');
+const difficulty = document.querySelectorAll(".btn");
 
 let cardArray = [];
 let cardsChosen = [];
@@ -54,26 +54,26 @@ const possibleCards = [
 ];
 
 for (const button of difficulty) {
-  button.addEventListener('click', setDifficulty)
+  button.addEventListener("click", setDifficulty);
 }
 
-function init () {
-  grid.innerHTML = '';
+function init() {
+  grid.innerHTML = "";
   cardArray = [];
-  message.textContent = 'Good Luck!';
-  turns.textContent = '0';
-  matches.textContent = '0';
+  message.textContent = "Good Luck!";
+  turns.textContent = "0";
+  matches.textContent = "0";
 }
 
-function setDifficulty () {
+function setDifficulty() {
   init();
-  if (this.getAttribute('id') == 'six') {
+  if (this.getAttribute("id") == "six") {
     setCardArray(6);
   }
-  if (this.getAttribute('id') == 'eight') {
+  if (this.getAttribute("id") == "eight") {
     setCardArray(8);
   }
-  if (this.getAttribute('id') == 'ten') {
+  if (this.getAttribute("id") == "ten") {
     setCardArray(10);
   }
 }
@@ -106,7 +106,7 @@ function flipcard() {
   this.setAttribute("src", cardArray[cardId].img);
   this.setAttribute("class", "card-front");
   if (cardsChosen.length === 2) {
-    setTimeout(checkForMatch, 500);
+    setTimeout(checkForMatch, 300);
   }
 }
 
